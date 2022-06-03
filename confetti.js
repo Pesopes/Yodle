@@ -1,7 +1,7 @@
 var particleOpacity = 0.65; //(my own) set global opacity (0.0-1.0)
 var zIndexPosition = false //(my own) false = in background; true = in foreground
 
-var maxParticleCount = 300; //set max confetti count
+var maxParticleCount = 250; //set max confetti count
 var particleSpeed = 1.5; //set the particle animation speed
 var startConfetti; //call to start confetti animation
 var stopConfetti; //call to stop adding confetti
@@ -117,7 +117,7 @@ var removeConfetti; //call to stop the confetti animation and remove all confett
 				particle.y = height + 100;
 			else {
 				particle.tiltAngle += particle.tiltAngleIncrement;
-				particle.x += Math.sin(waveAngle);
+				particle.x += Math.sin(waveAngle)/5;//not moving side to side too much
 				particle.y += (Math.cos(waveAngle) + particle.diameter + particleSpeed) * 0.5;
 				particle.tilt = Math.sin(particle.tiltAngle) * 15;
 			}

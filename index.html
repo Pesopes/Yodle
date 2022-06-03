@@ -36,6 +36,7 @@
 
 </head>
 <body id="body">
+
     <div style="overflow: hidden; position: relative;">
         <h1  onpointerup="loadScreen('settings-screen')">
             <div id="title">Splashle</div>
@@ -170,7 +171,15 @@
             <hr>
         </div>
 -->
-
+        <div class="settings-group">
+            <h3>Title</h3>
+            <img src="./calculator_icon.png" id="background-image-preview"></img>
+            <input type="file" id="background-image-input" name="img" accept="image/*" onchange="imageFromInput(this.id,'background-image-preview');
+                setTimeout(()=>{game.settings.backgroundImage = getBase64Image(gEl('background-image-preview'))},1000)
+                ">
+            <hr>
+        </div>
+        
         <div class="settings-group">
             <h3>Custom settings</h3>
             <button name="settings-import" id="settings-import" onpointerup="importSettings(prompt('Enter copied message'));updateSettings()" >Import settings</button>
@@ -186,9 +195,13 @@
         </div>
         <button onpointerup="loadScreen('game');refresh(false);updateSettings()" class="keyboard-button" style="background-color: rgb(70, 40, 40);">Back</button>
     </div>
+    
+    <!-- next time I will use webpack or something -->
     <script type="text/javascript" src="confetti.js"></script>
     <script type="text/javascript" src="curated_words.js"></script>
     <script type="text/javascript" src="./words.js" ></script>
+    <script type="text/javascript" src="./utils.js" ></script>
+    <script type="text/javascript" src="./input.js" ></script>
     <script type="text/javascript" src="./index.js"></script>
 </body>
 </html>

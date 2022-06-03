@@ -18,8 +18,8 @@ const SETTINGS_IMPORT_INDICATOR = "My settings: "
 
 const CURATED_WORDS = Object.keys(JSON.parse(CURATED_WORDS_JSON))
 
-const KEY_HOLD_DELAY = 700
-const KEY_HOLD_INTERVAL = 130
+const KEY_HOLD_DELAY = 350
+const KEY_HOLD_INTERVAL = 110
 
 let greenSymbol = "🟩"
 let yellowSymbol = "🟨"
@@ -49,67 +49,14 @@ const emptyGame = {
             inList:"#343b33"
         },
         titleName:"Yodle",
-        displaySplash:true
+        displaySplash:true,
+        backgroundImage:""
     }
 }
 
 let game = copyObject(emptyGame)
 //does this work the same?
 //let game = {...emptyGame}
-
-
-//  Helper functions
-String.prototype.includesNum = function(char){
-    let count = 0
-    for (let i = 0; i < this.length; i++) {
-        if(char === this[i])
-            count++
-    }
-    return count
-}
-String.prototype.replaceAt = function(index, replacement) {
-    return this.substring(0, index) + replacement + this.substring(index + replacement.length);
-
-}
-
-// kinda dumb but im lazy to make a function for this 
-// (oh this is so it isnt by reference)
-function copyObject(obj){
-    return JSON.parse(JSON.stringify(obj))
-}
-
-// function getBase64Image(img) {
-//     var canvas = document.createElement("canvas");
-//     canvas.width = img.width;
-//     canvas.height = img.height;
-
-//     var ctx = canvas.getContext("2d");
-//     ctx.drawImage(img, 0, 0);
-
-//     var dataURL = canvas.toDataURL("image/png");
-
-//     return dataURL.replace(/^data:image\/(png|jpg);base64,/, "");
-// }
-
-function rgbToHex(r, g, b) {
-    return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
-}
-
-function rgbToHexString(str) {
-    str = str.slice(4, -1).split(", ")
-    let r = parseInt(str[0])
-    let g = parseInt(str[1])
-    let b = parseInt(str[2])
-    return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
-}
-
-function gEl(id){
-    return document.getElementById(id)
-}
-
-function gEls(className){
-    return document.getElementsByClassName(className)
-}
 
 function loadScreen(id, display = "block"){
     gEl(game.screen.id).style.display = "none"
@@ -207,7 +154,7 @@ function init(){
     updateSplashScreen()
     presetEasterEggs()
     updateSettings()
-
+    updateBackground()
     //if first start
     if (localStorage.getItem("firstStart") === null || localStorage.getItem("firstStart") ===false)
     {
@@ -228,6 +175,12 @@ function updateSplashScreen(gameNumber=game.gameNum){
     //splash.style.color = colorArr[Math.floor(Math.random()*colorArr.length)]
     //completely random colours
     splash.style.color = `rgb(${Math.floor(Math.random()*255)}, ${Math.floor(Math.random()*255)}, ${Math.floor(Math.random()*255)})`
+}
+
+function updateBackground(){
+    let url = game.settings.backgroundImage
+    if (url === "") return
+    gEl("body").style.backgroundImage= "url('data:image/png;base64," + url.replace(/(\r\n|\n|\r)/gm, "") + "')";
 }
 
 function resetSettings(){
@@ -568,103 +521,6 @@ function clearBoard(){
 function refresh(showEndScreen = true){
     clearBoard()
     handleWordleObject(showEndScreen)
-}
-
-document.addEventListener( "keyup", (e)=>{
-    MyKeyboardEvent(e)
-})
-let holdInterval = null
-let holdTimeout = null
-let holdingKey = false
-gEl("keyboard-cont").addEventListener("pointerup", (e)=>{
-    holdingKey = false
-    clearInterval(holdInterval)
-    clearTimeout(holdTimeout)
-    holdInterval = null
-    holdTimeout = null
-    const target = e.target
-    if (!target.classList.contains("keyboard-button")) {
-        return
-    }
-    let key = target.textContent
-    if (target.id === "back-button") {
-        key = "Backspace"   
-    }
-
-    //because mobile -_-
-    //document.dispatchEvent(new KeyboardEvent("keyup", {'key': key}))
-    //document.dispatchEvent(new KeyboardEvent("input", {'key': key}))
-    MyKeyboardEvent(e={'key':key})
-})
-// holding keys will repeat them
-gEl("keyboard-cont").addEventListener("pointerdown", (e)=>{
-    holdingKey = true
-    if (holdTimeout === null && holdInterval === null) {
-        holdTimeout = setTimeout((e)=>{
-            holdInterval = setInterval((e)=>{
-                const target = e.target
-                if (!target.classList.contains("keyboard-button")) {
-                    return
-                }
-                let key = target.textContent
-                if (target.id === "back-button") {
-                    key = "Backspace"   
-                }
-                MyKeyboardEvent(e={'key':key})
-            },KEY_HOLD_INTERVAL,e)
-        },KEY_HOLD_DELAY,e)
-    }
-})
-
-
-function MyKeyboardEvent(e){
-    if(game.screen.id != "game")
-        return
-    let k = e.key
-    if(k == "Enter"){
-        enterWord()
-    }else if(k == "Backspace" && e.ctrlKey){
-        removeCurrentWord()
-    }else if(k == "Backspace"){
-        removeLastLetter()
-    }else{
-        let found = k.match(/[a-z]/gi)
-        if (!found || found.length > 1)
-            return
-        addLetter(found)
-    }
-    if (game.end) 
-        return
-    refresh()
-}
-
-function enterWord(){
-    
-    if(game.guesses[game.guesses.length-1].length >= game.wordLength && !game.end)
-    {
-        //if word exists
-        if(wordExists(game.guesses[game.guesses.length-1]))
-            game.guesses[game.guesses.length] = "ENTER"
-    }else if(game.end){
-        handleEnd(0)
-    }
-}
-
-function removeCurrentWord(){
-    game.guesses[game.guesses.length-1] = ""
-}
-
-function removeLastLetter(){
-    game.guesses[game.guesses.length-1] = game.guesses[game.guesses.length-1].slice(0, -1)
-}
-
-function addLetter(letter){
-    if (game.end) 
-        return
-    let index = game.guesses.length-1
-    if (game.guesses[index].length < game.wordLength) {
-        game.guesses[index] += letter
-    }
 }
 
 function getRandomWords(num, length){
