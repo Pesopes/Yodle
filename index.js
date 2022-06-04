@@ -116,12 +116,22 @@ function presetEasterEggs(gameNumber = game.gameNum){
         yellowSymbol = "🟡"
         greySymbol = "⚫"
     }else if (gameNumber === 30){
+        gEl("body").style.cursor = "wait"
         for (let i = 0; i < gEls("keyboard-button").length; i++) {
             const el = gEls("keyboard-button")[i]
             el.style.cursor = "wait"
             el.style.transform = "rotate(180deg)"
         }
-    }else if (gameNumber === 35){
+    }else if (gameNumber === 32){
+        gEl("body").style.cursor = "wait"
+        for (let i = 0; i < gEls("box").length; i++) {
+            const el = gEls("box")[i]
+            el.style.borderRadius = "0px"
+            el.style.border = "2px solid rgb(45, 45, 46)"
+        }
+    }else if (gameNumber === 34){
+        gEl("title").style.color = "red"
+    }else if (gameNumber === 36){
         gEl("splash-text").style.animation = "splashText 0.3s infinite cubic-bezier(0.445, 0.05, 0.55, 0.95)"
     }
 }
@@ -155,6 +165,7 @@ function init(){
     presetEasterEggs()
     updateSettings()
     updateBackground()
+
     //if first start
     if (localStorage.getItem("firstStart") === null || localStorage.getItem("firstStart") ===false)
     {
@@ -179,7 +190,9 @@ function updateSplashScreen(gameNumber=game.gameNum){
 
 function updateBackground(){
     let url = game.settings.backgroundImage
-    if (url === "") return
+    if (url === ""){
+        gEl("body").style.backgroundImage = "none"
+    }
     gEl("body").style.backgroundImage= "url('data:image/png;base64," + url.replace(/(\r\n|\n|\r)/gm, "") + "')";
 }
 
@@ -199,6 +212,8 @@ function updateSettings(){
 
     document.getElementsByTagName("body")[0].style.backgroundColor = game.settings.colors.background
     setVisibility("splash-text",game.settings.displaySplash)
+
+    updateBackground()
 
     gEl("displaySplash").checked = game.settings.displaySplash
     gEl("title-name").value = game.settings.titleName

@@ -172,14 +172,42 @@
         </div>
 -->
         <div class="settings-group">
-            <h3>Title</h3>
-            <img src="./calculator_icon.png" id="background-image-preview"></img>
+            <h3>Background</h3>
+            <p>note: I am not setting a size limit for this image but it is recommended to use smaller pictures(especially for sharing)</p>
+            <img src="./test-background.png" id="background-image-preview"></img>
             <input type="file" id="background-image-input" name="img" accept="image/*" onchange="imageFromInput(this.id,'background-image-preview');
                 setTimeout(()=>{game.settings.backgroundImage = getBase64Image(gEl('background-image-preview'))},1000)
                 ">
+            <button onpointerup="game.settings.backgroundImage = getBase64Image(gEl('background-image-preview'));updateBackground()">SET</button>
             <hr>
         </div>
         
+        <div class="settings-group">
+            <h3>Rate this game</h3>
+            <input id="rate-slider" type="range" value="5" min="0" max="10" oninput="gEl('rate-num').textContent = 'Your rating: '+this.value">
+            <p id="rate-num">Your rating: 5</p>
+            <textarea id="rate-text" rows="3" cols="23" placeholder="Write your review here"></textarea>
+            <button onclick="
+                this.textContent = 'Rating accepted!';
+                setTimeout(()=>{
+                    this.textContent = 'SUBMIT'
+                },2000);
+                let allReviewObj = JSON.parse(localStorage.getItem('reviews'));
+                if (allReviewObj === null){
+                    allReviewObj = {
+                        allReviews: []
+                    }
+                }
+                let reviewObj = {
+                    rating: gEl('rate-slider').valueAsNumber,
+                    reviewText: gEl('rate-text').value
+                }
+                allReviewObj.allReviews.push(reviewObj)
+                localStorage.setItem('reviews',JSON.stringify(allReviewObj))
+            ">SUBMIT</button>
+            <hr>
+        </div>
+
         <div class="settings-group">
             <h3>Custom settings</h3>
             <button name="settings-import" id="settings-import" onpointerup="importSettings(prompt('Enter copied message'));updateSettings()" >Import settings</button>

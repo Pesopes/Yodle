@@ -93,6 +93,18 @@ input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
+.infotab textarea {
+    background-color: rgb(26, 25, 25);
+    color: whitesmoke;
+    font-family: "Roboto Black", sans-serif;
+    font-size: 1rem;
+    text-align: left;
+    border: solid rgb(26, 25, 25);
+    border-radius: 4px;
+    box-shadow: 0.1em 0.1em 0.3em black;
+    resize: vertical;
+}
+
 .infotab input[type=number] {
     background-color: rgb(26, 25, 25);
     color: whitesmoke;
@@ -104,9 +116,28 @@ input::-webkit-inner-spin-button {
     box-shadow: 0.1em 0.1em 0.3em black;
     width: 2.3rem;
     margin: 10px;
-    appearance: textfield;
 }
-
+.infotab input[type=range] {
+    text-align: center;
+    box-shadow: 0.1em 0.1em 0.3em black;
+    margin: 10px;
+}
+.infotab input[type=file] {
+    background-color: rgb(31, 29, 29);
+    border: 0px ; /* Green border */
+    box-shadow: 0.1em 0.1em 0.3em black;
+    border-radius: 6px;
+    font-weight: 700;
+    font-size: 0.8rem;
+    text-align: center;
+    color: white;
+    padding: 10px 0px; 
+    margin: 12px 0px;
+    cursor: pointer; 
+    width: 100%; 
+    display: block;
+    transition: all 0.15s ease;
+}
 .settings-group{
     user-select: none;
     font-size: 1rem;

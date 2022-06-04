@@ -41,6 +41,9 @@ const SPLASH_TEXTS = [
 "corgi",
 "Will this ever be complete?",
 "(╯°□°）╯︵ ┻━┻",
+"Welcome.",
+"I ❤️‍🔥 Wordle",
+"Leave a great review!",
 "Come back tomorrow or don't.",
 "OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO"
 ]
