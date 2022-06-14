@@ -88,13 +88,13 @@ function getTodayWord(gameNumber){
 }
 
 function presetEasterEggs(gameNumber = game.gameNum){
-    if (gameNumber === 18) {
+    if (gameNumber  % 100 === 0) {
         for (let i = 0; i < gEls("box").length; i++) {
             const el = gEls("box")[i]
             el.style.color = "green"
             el.style.animation = "spin3d 20.6s infinite reverse"
         }
-    }else if (gameNumber === 26) {
+    }else if (gameNumber  % 4 === 0) {
         for (let i = 0; i < gEls("box").length; i++) {
             const el = gEls("box")[i]
             el.style.borderRadius = "100px"
@@ -103,7 +103,7 @@ function presetEasterEggs(gameNumber = game.gameNum){
             const el = gEls("keyboard-button")[i]
             el.style.borderRadius = "100px"
         }
-    }else if (gameNumber === 28){
+    }else if (gameNumber  % 10 === 0){
         for (let i = 0; i < gEls("box").length; i++) {
             const el = gEls("box")[i]
             el.style.borderRadius = "100px"
@@ -115,21 +115,21 @@ function presetEasterEggs(gameNumber = game.gameNum){
         greenSymbol = "🟢"
         yellowSymbol = "🟡"
         greySymbol = "⚫"
-    }else if (gameNumber === 30){
+    }else if (gameNumber  % 3 === 0){
         gEl("body").style.cursor = "wait"
         for (let i = 0; i < gEls("keyboard-button").length; i++) {
             const el = gEls("keyboard-button")[i]
             el.style.cursor = "wait"
             el.style.transform = "rotate(180deg)"
         }
-    }else if (gameNumber === 32){
+    }else if (gameNumber  % 20 === 0){
         gEl("body").style.cursor = "wait"
         for (let i = 0; i < gEls("box").length; i++) {
             const el = gEls("box")[i]
             el.style.borderRadius = "0px"
             el.style.border = "2px solid rgb(45, 45, 46)"
         }
-    }else if (gameNumber === 34){
+    }else if (gameNumber  % 13 === 0){
         gEl("title").style.color = "red"
     }else if (gameNumber === 36){
         gEl("splash-text").style.animation = "splashText 0.3s infinite cubic-bezier(0.445, 0.05, 0.55, 0.95)"
@@ -181,7 +181,7 @@ function init(){
 }
 function updateSplashScreen(gameNumber=game.gameNum){
     const splash = gEl("splash-text")
-    splash.textContent = SPLASH_TEXTS[gameNumber]
+    splash.textContent = SPLASH_TEXTS[gameNumber % SPLASH_TEXTS.length]
     const colorArr = [game.settings.colors.green,"rgb(165, 165, 165)", "rgb(255, 224, 83)","rgb(128, 217, 120)",game.settings.colors.yellow]
     //splash.style.color = colorArr[Math.floor(Math.random()*colorArr.length)]
     //completely random colours

@@ -44,6 +44,9 @@ const SPLASH_TEXTS = [
 "Welcome.",
 "I ❤️‍🔥 Wordle",
 "Leave a great review!",
+"Your first guess: 🟩🟨🟨⬛⬛",
+"<game></game>",
+"These texts are going to repeat soon...",
 "Come back tomorrow or don't.",
 "OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO"
 ]
